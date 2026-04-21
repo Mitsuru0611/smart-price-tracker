@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="hero">
+  <h1>Price Trend Graph</h1>
+  <p class="muted">Select a URL to display the price trend. (Graph is always accessible from the top menu.)</p>
+</div>
+
+<div class="card">
+  <form method="GET" class="form-row">
+    <label class="field" style="flex:1;">
+      <span>Product URL</span>
+      <input type="text" name="url" placeholder="https://books.toscrape.com/..." value="{{ url }}">
+    </label>
+    <button class="btn" type="submit">Show</button>
+  </form>
+
+  {% if url %}
+    <div class="graph-box">
+      <img class="graph-img" src="{{ url_for('plot_png', url=url) }}" alt="Price Trend Graph">
+    </div>
+    <div class="actions">
+      <a class="link" href="{{ url_for('history', url=url) }}">Open History for this URL</a>
+    </div>
+  {% else %}
+    <p class="muted">Enter a URL above and press Show.</p>
+  {% endif %}
+</div>
+
+{% endblock %}

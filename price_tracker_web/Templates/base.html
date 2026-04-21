@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}SmartPrice{% endblock %}</title>
+
+  <!-- Amazon風CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='amazon.css') }}">
+</head>
+<body>
+
+  <!-- Top Nav -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">SmartPrice</div>
+      <nav class="nav">
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('history') }}">History</a>
+        <a href="{{ url_for('graph') }}">Graph</a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    Smart Commerce with Python · Demo Project
+  </footer>
+
+</body>
+</html>

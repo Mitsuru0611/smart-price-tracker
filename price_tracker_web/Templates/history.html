@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}History | SmartPrice{% endblock %}
+
+{% block content %}
+  <h1 class="page-title">Price History</h1>
+
+  <div class="card">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>URL</th>
+          <th>Title</th>
+          <th>Price</th>
+          <th>Target</th>
+          <th>Decision</th>
+          <th>Trend</th>
+          <th>Predicted</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for r in rows %}
+        <tr>
+          <td>{{ r.created_at }}</td>
+
+          <td class="td-url">
+            <a href="{{ r.url }}" target="_blank" rel="noopener">
+              {{ r.url[:40] }}{% if r.url|length > 40 %}...{% endif %}
+            </a>
+          </td>
+
+          <td>{{ r.title }}</td>
+          <td>{{ "%.2f"|format(r.price) }}</td>
+          <td>{{ "%.2f"|format(r.target) }}</td>
+          <td><b>{{ r.decision }}</b></td>
+          <td>{{ r.trend }}</td>
+          <td>{{ "%.2f"|format(r.predicted) }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

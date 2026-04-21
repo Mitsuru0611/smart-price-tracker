@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="hero">
+  <h1>Smart Price Tracker</h1>
+  <p class="muted">Paste a product URL, set a target price, and track changes with history & trend graph.</p>
+</div>
+
+<div class="card">
+  <h2>Check Product Price</h2>
+
+  <form method="POST" class="form-row">
+    <label class="field">
+      <span>Product URL</span>
+      <input
+  type="text"
+  name="url"
+  placeholder="Enter URL"
+  value="{{ request.form.get('url','') }}">
+    </label>
+
+    <label class="field">
+      <span>Target Price</span>
+      <input type="number" step="0.01" name="target" placeholder="50">
+    </label>
+
+    <button class="btn" type="submit">Check Price</button>
+  </form>
+
+  {% if error %}
+    <div class="alert alert--error">{{ error }}</div>
+  {% endif %}
+</div>
+
+<div class="card">
+  <h2>Result</h2>
+
+  {% if result %}
+    <div class="result">
+      <div class="result__title">{{ result.title }}</div>
+
+      <div class="result__grid">
+        <div><span class="k">Current Price:</span> <b>{{ result.currency }}{{ "%.2f"|format(result.price) }}</b></div>
+        <div><span class="k">Target Price:</span> {{ result.currency }}{{ "%.2f"|format(result.target) }}</div>
+        <div><span class="k">Decision:</span> <b>{{ result.decision }}</b></div>
+        <div><span class="k">Trend:</span> <b>{{ result.trend }}</b></div>
+        <div>
+          <span class="k">Predicted Next Price:</span>
+          <b>
+            {% if result.predicted is not none %}
+              {{ result.currency }}{{ "%.2f"|format(result.predicted) }}
+            {% else %}
+              N/A
+            {% endif %}
+          </b>
+        </div>
+      </div>
+
+      <div class="comment">
+        <span class="k">AI Comment:</span> {{ result.ai_comment }}
+      </div>
+
+      <div class="actions">
+        <a class="link" href="{{ url_for('graph', url=result.url) }}">View Price Graph</a>
+        <a class="link" href="{{ url_for('history', url=result.url) }}">View History</a>
+      </div>
+    </div>
+  {% else %}
+    <p class="muted">No result yet. Enter a URL and click Check.</p>
+  {% endif %}
+</div>
+
+{% endblock %}
